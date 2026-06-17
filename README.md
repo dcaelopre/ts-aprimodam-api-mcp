@@ -11,6 +11,7 @@ A [Model Context Protocol](https://modelcontextprotocol.io) server that exposes 
 | `get_record_files` | Read attached files, master file, and optionally renditions/public links |
 | `create_record` | Create a new record/asset with optional master file upload token and fields |
 | `update_record` | Update record status and/or metadata field values |
+| `upload_file` | Upload a file to Aprimo and get an upload token for create_record |
 
 ## Prerequisites
 

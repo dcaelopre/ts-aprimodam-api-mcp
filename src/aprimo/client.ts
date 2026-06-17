@@ -44,6 +44,10 @@ export class AprimoClient {
     return `https://${this.config.tenant}.dam.aprimo.com/api/core`;
   }
 
+  get uploadBaseUrl(): string {
+    return `https://${this.config.tenant}.aprimo.com`;
+  }
+
   private get tokenUrl(): string {
     return `https://${this.config.tenant}.aprimo.com/login/connect/token`;
   }
@@ -151,5 +155,47 @@ export class AprimoClient {
       body: payload,
       signal,
     });
+  }
+
+  async uploadRequest(
+    method: string,
+    path: string,
+    options: { body?: FormData | unknown; signal?: AbortSignal } = {},
+  ): Promise<unknown> {
+    const token = await this.getAccessToken();
+    const url = `${this.uploadBaseUrl}${path}`;
+
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${token}`,
+      Accept: "*/*",
+      "api-version": "1",
+    };
+
+    let body: BodyInit | undefined;
+    if (options.body instanceof FormData) {
+      body = options.body;
+    } else if (options.body !== undefined) {
+      headers["Content-Type"] = "application/json";
+      body = JSON.stringify(options.body);
+    }
+
+    const response = await fetch(url, {
+      method,
+      headers,
+      body,
+      signal: options.signal,
+    });
+
+    if (!response.ok) {
+      const detail = await response.text();
+      throw new Error(`Aprimo upload error (${response.status}) ${method} ${path}: ${detail}`);
+    }
+
+    const text = await response.text();
+    if (!text) {
+      return { success: true };
+    }
+
+    return JSON.parse(text);
   }
 }
