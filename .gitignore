@@ -2,5 +2,6 @@ node_modules/
 dist/
 .env
 .env.local
+infra/parameters.json
 *.log
 .DS_Store

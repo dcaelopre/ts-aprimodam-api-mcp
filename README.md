@@ -69,12 +69,16 @@ docker run -p 3000:3000 \
 
 ## Azure deployment
 
-Deploy the Docker image to **Azure Container Apps** or **Azure App Service**:
+See **[docs/azure-deployment.md](docs/azure-deployment.md)** for the full guide.
 
-1. Push this repo to GitHub
-2. Build and push the image to **Azure Container Registry**
-3. Create a Container App with environment variables for `APRIMO_TENANT`, `APRIMO_CLIENT_ID`, and `APRIMO_CLIENT_SECRET`
-4. Expose port `3000` and use the `/mcp` endpoint as your connector URL
+Quick start:
+
+1. Copy `infra/parameters.example.json` → `infra/parameters.json` and fill in values
+2. Run `.\scripts\deploy-infra.ps1` to create Azure resources
+3. Add `AZURE_CREDENTIALS` GitHub secret (service principal JSON)
+4. Push to `main` — GitHub Actions builds and deploys automatically
+
+Your MCP connector URL will be: `https://<container-app-fqdn>/mcp`
 
 ## API reference
 
