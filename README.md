@@ -9,6 +9,8 @@ A [Model Context Protocol](https://modelcontextprotocol.io) server that exposes 
 | `get_record` | Read core record/asset metadata (title, status, content type, timestamps) |
 | `get_record_fields` | Read metadata field values; optionally filter by field or field group |
 | `get_record_files` | Read attached files, master file, and optionally renditions/public links |
+| `create_record` | Create a new record/asset with optional master file upload token and fields |
+| `update_record` | Update record status and/or metadata field values |
 
 ## Prerequisites
 
