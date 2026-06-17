@@ -89,12 +89,22 @@ export class AprimoClient {
     path: string,
     options: {
       selectHeaders?: Record<string, string>;
+      query?: Record<string, string | number | undefined>;
       body?: unknown;
       signal?: AbortSignal;
     } = {},
   ): Promise<unknown> {
     const token = await this.getAccessToken();
-    const url = `${this.damBaseUrl}${path}`;
+    const query = new URLSearchParams();
+    if (options.query) {
+      for (const [key, value] of Object.entries(options.query)) {
+        if (value !== undefined) {
+          query.set(key, String(value));
+        }
+      }
+    }
+    const queryString = query.toString();
+    const url = `${this.damBaseUrl}${path}${queryString ? `?${queryString}` : ""}`;
 
     const headers: Record<string, string> = {
       Authorization: `Bearer ${token}`,
@@ -154,6 +164,32 @@ export class AprimoClient {
     return this.apiRequest("PUT", `/record/${encodeURIComponent(recordId)}`, {
       body: payload,
       signal,
+    });
+  }
+
+  async getFieldDefinition(fieldDefinitionId: string, signal?: AbortSignal): Promise<unknown> {
+    return this.apiRequest("GET", `/fielddefinition/${encodeURIComponent(fieldDefinitionId)}`, {
+      selectHeaders: { "select-fielddefinition": "fieldgroups,datatype,label" },
+      signal,
+    });
+  }
+
+  async getFieldDefinitions(
+    options: {
+      page?: number;
+      pageSize?: number;
+      filter?: string;
+      signal?: AbortSignal;
+    } = {},
+  ): Promise<unknown> {
+    return this.apiRequest("GET", "/fielddefinitions", {
+      query: {
+        page: options.page ?? 1,
+        pagesize: options.pageSize ?? 50,
+        filter: options.filter,
+      },
+      selectHeaders: { "select-fielddefinition": "fieldgroups,datatype,label" },
+      signal: options.signal,
     });
   }
 
