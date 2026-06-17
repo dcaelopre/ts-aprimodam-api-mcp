@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "celopre-aprimo-mcp-server": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://YOUR-WEBAPP-NAME.azurewebsites.net/mcp",
+        "--transport",
+        "http-only",
+        "--header",
+        "X-Aprimo-Environment:${APRIMO_ENVIRONMENT}",
+        "--header",
+        "X-Aprimo-Client-Id:${APRIMO_CLIENT_ID}",
+        "--header",
+        "X-Aprimo-Client-Secret:${APRIMO_CLIENT_SECRET}"
+      ],
+      "env": {
+        "APRIMO_ENVIRONMENT": "your-tenant",
+        "APRIMO_CLIENT_ID": "your-client-id",
+        "APRIMO_CLIENT_SECRET": "your-client-secret"
+      }
+    }
+  }
+}

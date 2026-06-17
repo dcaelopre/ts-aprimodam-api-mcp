@@ -1,9 +1,9 @@
 name: Deploy to Azure Container Apps
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+
+# Container Apps deployment — run manually when that infrastructure is provisioned.
 
 env:
   AZURE_RESOURCE_GROUP: rg-aprimo-dam-mcp

@@ -56,6 +56,8 @@ claude mcp add --transport http aprimo-dam http://localhost:3000/mcp
 
 For Claude Desktop / Claude.ai, add a custom connector pointing to your deployed URL.
 
+**Client setup (Claude, Cursor, other LLMs):** see **[docs/client-configuration.md](docs/client-configuration.md)** — uses `mcp-remote` with `X-Aprimo-*` headers.
+
 ## Docker
 
 ```bash
@@ -69,16 +71,9 @@ docker run -p 3000:3000 \
 
 ## Azure deployment
 
-See **[docs/azure-deployment.md](docs/azure-deployment.md)** for the full guide.
+**Manual Web App (Portal):** see **[docs/azure-webapp-manual.md](docs/azure-webapp-manual.md)**
 
-Quick start:
-
-1. Copy `infra/parameters.example.json` → `infra/parameters.json` and fill in values
-2. Run `.\scripts\deploy-infra.ps1` to create Azure resources
-3. Add `AZURE_CREDENTIALS` GitHub secret (service principal JSON)
-4. Push to `main` — GitHub Actions builds and deploys automatically
-
-Your MCP connector URL will be: `https://<container-app-fqdn>/mcp`
+**Automated Container Apps:** see **[docs/azure-deployment.md](docs/azure-deployment.md)**
 
 ## API reference
 
