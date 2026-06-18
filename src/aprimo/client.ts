@@ -34,6 +34,14 @@ export interface UpdateRecordPayload {
   fields?: { addOrUpdate: FieldUpdate[] };
 }
 
+export interface SearchRecordsOptions {
+  expression: string;
+  page?: number;
+  pageSize?: number;
+  supportWildcards?: boolean;
+  signal?: AbortSignal;
+}
+
 export class AprimoClient {
   private accessToken: string | null = null;
   private tokenExpiresAt = 0;
@@ -189,6 +197,30 @@ export class AprimoClient {
         filter: options.filter,
       },
       selectHeaders: { "select-fielddefinition": "fieldgroups,datatype,label" },
+      signal: options.signal,
+    });
+  }
+
+  async searchRecords(options: SearchRecordsOptions): Promise<unknown> {
+    const page = options.page ?? 1;
+    const pageSize = options.pageSize ?? 50;
+
+    return this.apiRequest("POST", "/search/records", {
+      body: {
+        searchExpression: {
+          expression: options.expression,
+          parameters: [],
+          namedParameters: {},
+          supportWildcards: options.supportWildcards ?? true,
+          defaultLogicalOperator: "AND",
+        },
+        logRequest: false,
+      },
+      selectHeaders: {
+        page: String(page),
+        pagesize: String(pageSize),
+        "select-record": "title,status,contenttype,createdon,modifiedon,thumbnail,masterfilelatestversion",
+      },
       signal: options.signal,
     });
   }

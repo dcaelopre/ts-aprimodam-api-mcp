@@ -9,6 +9,7 @@ import { AprimoClient } from "./aprimo/client.js";
 import { resolveAprimoConfig } from "./config.js";
 import { registerFieldDefinitionTools } from "./tools/field-definitions.js";
 import { registerRecordTools } from "./tools/records.js";
+import { registerSearchTools } from "./tools/search.js";
 import { registerUploadTools } from "./tools/upload.js";
 
 interface McpSession {
@@ -30,13 +31,14 @@ function createServer(aprimo: AprimoClient): McpServer {
     { name: "aprimo-dam-api-mcp", version: "0.1.0" },
     {
       instructions:
-        "This server integrates with Aprimo DAM. Record IDs are GUIDs — do not guess them. Typical asset workflow: upload_file → create_record (with master_file_upload_token). Use get_field_definitions to discover metadata fields, and get_record / get_record_fields / get_record_files to read data.",
+        "This server integrates with Aprimo DAM. Record IDs are GUIDs — do not guess them. Use search_records to find assets by keywords, get_field_definitions for schema discovery, and upload_file → create_record to add assets.",
     },
   );
 
   registerRecordTools(server, aprimo);
   registerUploadTools(server, aprimo);
   registerFieldDefinitionTools(server, aprimo);
+  registerSearchTools(server, aprimo);
   return server;
 }
 

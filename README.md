@@ -13,6 +13,7 @@ A [Model Context Protocol](https://modelcontextprotocol.io) server that exposes 
 | `update_record` | Update record status and/or metadata field values |
 | `upload_file` | Upload a file to Aprimo and get an upload token for create_record |
 | `get_field_definitions` | List or look up Aprimo metadata field definitions (schema) |
+| `search_records` | Search records/assets by keywords across base and custom fields |
 
 ## Prerequisites
 
